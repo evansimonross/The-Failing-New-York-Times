@@ -1,4 +1,4 @@
-var db = require("./models");
+var db = require("../models");
 
 module.exports = function(app){
 
@@ -21,8 +21,18 @@ module.exports = function(app){
       })
       .catch(function(err){
         res.err(err);
-      })
+      });
   });
+
+  app.post("/api/users", function(req, res){
+    db.User.create(req.body)
+      .then(function(data){
+        res.json(data);
+      })
+      .catch(function(err){
+        res.err(err);
+      });
+  })
 
   // ARTICLE ROUTES
   app.get("/api/articles", function(req, res){
