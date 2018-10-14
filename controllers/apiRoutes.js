@@ -77,8 +77,78 @@ module.exports = function (app) {
 
   app.get("/api/articles/:id", function (req, res) {
     db.Article.findOne({ _id: req.params.id })
-      .populate("comments")
+      .populate("votes")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+          model: "User"
+        }
+      })
       .then(function (data) {
+        res.json(data);
+      })
+      .catch(function (err) {
+        res.json(err);
+      });
+  });
+
+  // COMMENT ROUTES
+  app.get("/api/comments", function (req, res) {
+    db.Comment.find({})
+      .populate("user")
+      .then(function (data) {
+        res.json(data);
+      })
+      .catch(function (err) {
+        res.json(err);
+      });
+  });
+
+  app.get("/api/comments/:id", function (req, res) {
+    db.Comment.findOne({ _id: req.params.id })
+      .populate("user")
+      .then(function (data) {
+        res.json(data);
+      })
+      .catch(function (err) {
+        res.json(err);
+      });
+  });
+
+  app.post("/api/comments", function (req, res) {
+    db.Comment.create({
+      text: req.body.text,
+      user: req.body.user,
+      article: req.body.article
+    })
+      .then(function (data) {
+        // Add the comment to the user document 
+        db.User.update({
+          _id: req.body.user
+        },
+          {
+            $push: { comments: data._id }
+          })
+          .then(function (updateData) {
+          })
+          .catch(function (err) {
+            res.json(err);
+          });
+
+        // Add the comment to the article document
+        db.Article.update({
+          _id: req.body.article
+        },
+          {
+            $push: { comments: data._id }
+          })
+          .then(function (updateData) {
+          })
+          .catch(function (err) {
+            res.json(err);
+          });
+
         res.json(data);
       })
       .catch(function (err) {
