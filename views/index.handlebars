@@ -1,8 +1,14 @@
 <ul>
   {{#each articles}}
-    <li><a href="https://nytimes.com/{{link}}">{{title}}</a></li>
+    <li><a href="https://nytimes.com/{{link}}">{{title}}</a>
+    <br>
+      <span class="fail">sad</span> ({{sad}})
+      <span class="fail">fake</span> ({{fake}})
+      <span class="fail">boring</span> ({{boring}})
+      <a href="https://nytimes.com/{{link}}"><i class="material-icons">open_in_new</i></a>
+    </li>
   {{/each}}
   {{#if nextPage}}
-    <a href="/articles/{{nextPage}}">Next Page</a>
+    <a href="/articles/page/{{nextPage}}">Next Page</a>
   {{/if}}
 </ul>
