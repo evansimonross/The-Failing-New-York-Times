@@ -1,0 +1,12 @@
+<h2><a href="https://nytimes.com/{{link}}">{{title}}</a></h2>
+<br>
+<span class="fail">sad</span> ({{sad}})
+<span class="fail">fake</span> ({{fake}})
+<span class="fail">boring</span> ({{boring}})
+<a href="https://nytimes.com/{{link}}"><i class="material-icons">open_in_new</i></a>
+<br>
+<ul>
+{{#each comment}}
+<li>{{text}}<br>{{user.name}}</li>
+{{/each}}
+</ul>
