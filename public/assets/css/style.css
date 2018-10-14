@@ -1,0 +1,36 @@
+@font-face{
+    font-family: 'EnglishTowne';
+    src: url('../fonts/EnglishTowne.ttf');
+}
+
+@font-face{
+  font-family: 'PlaneCrash';
+  src: url('../fonts/Plane\ Crash.ttf');
+}
+
+nav{
+  background-color: #999;
+  background: url('../images/textured_paper.png');
+  -webkit-box-shadow: 
+    0 2px 2px 0 rgba(0,0,0,0.04), 
+    0 3px 1px -2px rgba(0,0,0,0.02), 
+    0 1px 5px 0 rgba(0,0,0,0.10);
+  box-shadow: 
+    0 2px 2px 0 rgba(0,0,0,0.04), 
+    0 3px 1px -2px rgba(0,0,0,0.02),
+    0 1px 5px 0 rgba(0,0,0,0.1);
+}
+
+.nyt{
+  color: #000;
+  font-family: 'EnglishTowne', fantasy;
+}
+
+.fail{
+  color: #000;
+  font-family: 'PlaneCrash', sans-serif;
+}
+
+.sidenav-trigger, nav ul a{
+  color: #000;
+}
