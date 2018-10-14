@@ -8,8 +8,17 @@
   src: url('../fonts/Plane\ Crash.ttf');
 }
 
+body{
+  font-family: 'Cabin', sans-serif;
+  background-image: 
+    linear-gradient(
+      rgba(255, 255, 255, 0.85), 
+      rgba(255, 255, 255, 0.85)
+    ),
+    url('../images/textured_paper.png');
+}
+
 nav{
-  background-color: #999;
   background: url('../images/textured_paper.png');
   -webkit-box-shadow: 
     0 2px 2px 0 rgba(0,0,0,0.04), 
@@ -21,6 +30,29 @@ nav{
     0 1px 5px 0 rgba(0,0,0,0.1);
 }
 
+li{
+  padding-bottom: 25px;
+  padding-left: 25px;
+}
+
+i{
+  position: relative;
+  top: 7.5px;
+}
+
+a{
+  color: #f15;
+}
+
+.hidden{
+  visibility: hidden;
+}
+
+.headline {
+  font-weight: 700;
+  font-size: 1.625em;
+}
+
 .nyt{
   color: #000;
   font-family: 'EnglishTowne', fantasy;
@@ -29,6 +61,8 @@ nav{
 .fail{
   color: #000;
   font-family: 'PlaneCrash', sans-serif;
+  position: relative;
+  top: 2px;
 }
 
 .sidenav-trigger, nav ul a{

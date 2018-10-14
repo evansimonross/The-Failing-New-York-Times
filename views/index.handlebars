@@ -1,14 +1,23 @@
 <ul>
   {{#each articles}}
-    <li><a href="/articles/{{_id}}">{{title}}</a>
-    <br>
-      <span class="fail">sad</span> ({{sad}})
-      <span class="fail">fake</span> ({{fake}})
-      <span class="fail">boring</span> ({{boring}})
+    <li><a class="headline" href="/articles/{{_id}}">{{title}}</a>
+    <br> &nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="fail">sad ({{sad}})</span> &nbsp;&nbsp;
+      <span class="fail">fake ({{fake}})</span> &nbsp;&nbsp;
+      <span class="fail">boring ({{boring}})</span> &nbsp;&nbsp;
       <a href="https://nytimes.com/{{link}}"><i class="material-icons">open_in_new</i></a>
     </li>
   {{/each}}
+  &nbsp;
+  {{#if prevPage}}
+    <a href="/articles/page/{{prevPage}}"><i class="material-icons">keyboard_arrow_left</i>Prev</a>
+  {{else}}
+    <span class="hidden"><i class="material-icons">keyboard_arrow_left</i>Prev</a></span>
+  {{/if}}
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   {{#if nextPage}}
-    <a href="/articles/page/{{nextPage}}">Next Page</a>
+    <a href="/articles/page/{{nextPage}}">Next<i class="material-icons">keyboard_arrow_right</i></a>
+  {{else}}
+    <span class="hidden"><i class="material-icons">Next<i class="material-icons">keyboard_arrow_right</i></span>
   {{/if}}
 </ul>
