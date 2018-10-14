@@ -1,12 +1,16 @@
-<a class="headline" ref="https://nytimes.com/{{link}}">{{title}}</a>
-<br>
-<span class="fail">sad</span> ({{sad}})
-<span class="fail">fake</span> ({{fake}})
-<span class="fail">boring</span> ({{boring}})
-<a href="https://nytimes.com/{{link}}"><i class="material-icons">open_in_new</i></a>
-<br>
 <ul>
-{{#each comments}}
-<li>{{text}}<br>{{user.name}}</li>
-{{/each}}
+<li><a class="headline" ref="https://nytimes.com/{{link}}">{{title}}</a>
+<br> &nbsp;&nbsp;&nbsp;&nbsp;
+<span class="fail sad" data-id="{{_id}}">sad ({{sad}})</span> &nbsp;&nbsp;
+<span class="fail fake" data-id="{{_id}}">fake ({{fake}})</span> &nbsp;&nbsp;
+<span class="fail boring" data-id="{{_id}}">boring ({{boring}})</span> &nbsp;&nbsp;
+<a href="https://nytimes.com/{{link}}"><i class="material-icons">open_in_new</i></a>
+</li>
+<br>
+  {{#each comments}}
+  <li>
+    <span class="comment">{{text}}</span>
+    <span class="username">{{user.name}}</span>
+    </li>
+  {{/each}}
 </ul>
