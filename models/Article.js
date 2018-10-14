@@ -11,18 +11,12 @@ var ArticleSchema = new Schema({
     required: true,
     unique: true
   },
-  sad: {
-    type: Number,
-    default: 0
-  },
-  fake: {
-    type: Number,
-    default: 0
-  },
-  boring: {
-    type: Number,
-    default: 0
-  },
+  votes: [
+    { 
+      type: Schema.Types.ObjectId,
+      ref: "Vote"
+    }
+  ],
   comments: [
     {
       type: Schema.Types.ObjectId,
