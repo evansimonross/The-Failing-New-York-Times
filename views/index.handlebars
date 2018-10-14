@@ -1,5 +1,8 @@
 <ul>
   {{#each articles}}
-    <li><a href="{{link}}">{{title}}</a></li>
+    <li><a href="https://nytimes.com/{{link}}">{{title}}</a></li>
   {{/each}}
+  {{#if nextPage}}
+    <a href="/articles/{{nextPage}}">Next Page</a>
+  {{/if}}
 </ul>

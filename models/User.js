@@ -16,7 +16,15 @@ var UserSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Comment"
     }
-  ]
+  ],
+  created: {
+    type: Date,
+    default: Date.now
+  },
+  updated: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 var User = mongoose.model("User", UserSchema);

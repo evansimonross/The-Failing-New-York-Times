@@ -13,6 +13,14 @@ var CommentSchema = new Schema({
   article: {
     type: Schema.Types.ObjectId,
     ref: "Article"
+  },
+  created: {
+    type: Date,
+    default: Date.now
+  },
+  updated: {
+    type: Date,
+    default: Date.now
   }
 });
 
