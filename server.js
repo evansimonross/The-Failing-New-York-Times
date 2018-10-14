@@ -27,10 +27,8 @@ var mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI);
 
 require("./controllers/apiRoutes")(app);
-//require("./controllers/htmlRoutes")(app);
+require("./controllers/htmlRoutes")(app);
 
 app.listen(PORT, function() {
   console.log("Listening on PORT " + PORT);
 })
-
-module.exports = app;
