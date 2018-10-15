@@ -12,6 +12,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
+var session = require("express-session");
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: false
+}));
+
 var exphbs = require("express-handlebars");
 
 app.engine(

@@ -76,12 +76,17 @@ module.exports = function (app) {
         });
     }
     else {
-      User.authenticate(user.name, user.password, function(err, data){
-        if(err || !data){
-          return res.status("400").send("User/password not found.");
+      db.User.authenticate(user.name, user.password, function(error, data){
+        if(error) {
+          return res.json(error);
         }
-        req.session.userId = data._id;
-        return res.redirect("/");
+        try {
+          req.session.userId = data._id;
+          return res.redirect("/");
+        }
+        catch(err){
+          return res.json(err);
+        }
       });
     }
   });

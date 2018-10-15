@@ -9,16 +9,16 @@ function renderArticleList(res, data, nextPage) {
     });
   }
   var toRender = { articles: data };
-  for(var i = 0; i < data.length; i++){
+  for (var i = 0; i < data.length; i++) {
     var sad = 0, fake = 0, boring = 0;
-    for(var j = 0 ; j < data[i].votes.length; j++){
-      if(data[i].votes[j].text === "sad"){
+    for (var j = 0; j < data[i].votes.length; j++) {
+      if (data[i].votes[j].text === "sad") {
         sad++;
       }
-      else if(data[i].votes[j].text === "fake"){
+      else if (data[i].votes[j].text === "fake") {
         fake++;
       }
-      else if(data[i].votes[j].text === "boring"){
+      else if (data[i].votes[j].text === "boring") {
         boring++;
       }
     }
@@ -27,7 +27,7 @@ function renderArticleList(res, data, nextPage) {
     data[i].boring = boring;
   }
   if (data.length === LIMIT) { toRender.nextPage = nextPage; }
-  if (nextPage > 2) { toRender.prevPage = nextPage-2; }
+  if (nextPage > 2) { toRender.prevPage = nextPage - 2; }
   res.render("index", toRender);
 }
 
@@ -40,7 +40,7 @@ module.exports = function (app) {
       }
     })
       .populate("votes")
-      .then(function(data){
+      .then(function (data) {
         renderArticleList(res, data, 2);
       });
   });
@@ -54,7 +54,7 @@ module.exports = function (app) {
       }
     })
       .populate("votes")
-      .then(function(data){
+      .then(function (data) {
         renderArticleList(res, data, (parseInt(req.params.page) + 1));
       });
   });
@@ -71,14 +71,14 @@ module.exports = function (app) {
       })
       .then(function (data) {
         var sad = 0, fake = 0, boring = 0;
-        for(var j = 0 ; j < data.votes.length; j++){
-          if(data.votes[j].text === "sad"){
+        for (var j = 0; j < data.votes.length; j++) {
+          if (data.votes[j].text === "sad") {
             sad++;
           }
-          else if(data.votes[j].text === "fake"){
+          else if (data.votes[j].text === "fake") {
             fake++;
           }
-          else if(data.votes[j].text === "boring"){
+          else if (data.votes[j].text === "boring") {
             boring++;
           }
         }
@@ -89,7 +89,23 @@ module.exports = function (app) {
       });
   });
 
-  app.get("/login", function(req, res){
-    res.render("login", {});
+  app.get("/login", function (req, res) {
+    try {
+      if (req.session.userId) { return res.render("404", { text: "You're already logged in." }); }
+      res.render("login", { signup: false });
+    }
+    catch (err) {
+      res.render("login", { signup: false });
+    }
+  });
+
+  app.get("/signup", function (req, res) {
+    try {
+      if (req.session.userId) { return res.render("404", { text: "You're already logged in." }); }
+      res.render("login", { signup: true });
+    }
+    catch (err) {
+      res.render("login", { signup: true });
+    }
   });
 }

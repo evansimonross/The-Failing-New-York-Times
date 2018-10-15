@@ -1,0 +1,16 @@
+{{#if signup}}
+<h3>Sign Up</h3>
+{{else}}
+<h3>Log In</h3>
+{{/if}}
+<form id="userForm">
+  <p><b>Username:</b></p>
+  <input type="text" name="name">
+  <p><b>Password:</b></p>
+  <input type="password" name="password">
+  {{#if signup}}
+  <p><b>Password (confirm):</b></p>
+  <input type="password" name="passwordConfirm">
+  {{/if}}
+  <input type="submit" value="Submit">
+</form>
