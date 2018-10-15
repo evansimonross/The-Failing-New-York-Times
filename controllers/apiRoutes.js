@@ -56,6 +56,17 @@ module.exports = function (app) {
         res.json(err);
       });
   });
+   
+  app.get("/api/users/logout", function (req, res){
+    if(req.session) {
+      req.session.destroy(function (err){
+        if(err){
+          return res.json(err);
+        }
+        return res.redirect("/");
+      });
+    }
+  });
 
   app.post("/api/users", function (req, res) {
     var user = req.body;

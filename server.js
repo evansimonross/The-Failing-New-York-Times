@@ -12,13 +12,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-var session = require("express-session");
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: false
-}));
-
 var exphbs = require("express-handlebars");
 
 app.engine(
@@ -32,10 +25,24 @@ app.set("view engine", "handlebars");
 var mongoose = require("mongoose");
 
 mongoose.connect(process.env.MONGODB_URI);
-
-require("./controllers/apiRoutes")(app);
-require("./controllers/htmlRoutes")(app);
-
-app.listen(PORT, function() {
-  console.log("Listening on PORT " + PORT);
-})
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  var session = require("express-session");
+  var MongoStore = require("connect-mongo")(session);
+  app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongooseConnection: db
+    })
+  }));
+  
+  require("./controllers/apiRoutes")(app);
+  require("./controllers/htmlRoutes")(app);
+  
+  app.listen(PORT, function() {
+    console.log("Listening on PORT " + PORT);
+  })
+});
