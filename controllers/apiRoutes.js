@@ -2,6 +2,9 @@ var db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 module.exports = function (app) {
 
   // SCRAPING
@@ -55,14 +58,33 @@ module.exports = function (app) {
   });
 
   app.post("/api/users", function (req, res) {
-    db.User.create(req.body)
-      .then(function (data) {
-        res.json(data);
-      })
-      .catch(function (err) {
-        res.json(err);
+    var user = req.body;
+    if (!(user.name && user.password)) {
+      return res.status("400").send();
+    }
+    if (user.passwordConfirm) {
+      if (user.passwordConfirm != user.password){
+        return res.status("400").send("The passwords do not match!");
+      }
+      db.User.create(user)
+        .then(function (data) {
+          req.session.userId = data._id;
+          res.json(data);
+        })
+        .catch(function (err) {
+          res.json(err);
+        });
+    }
+    else {
+      User.authenticate(user.name, user.password, function(err, data){
+        if(err || !data){
+          return res.status("400").send("User/password not found.");
+        }
+        req.session.userId = data._id;
+        return res.redirect("/");
       });
-  })
+    }
+  });
 
   // ARTICLE ROUTES
   app.get("/api/articles", function (req, res) {
