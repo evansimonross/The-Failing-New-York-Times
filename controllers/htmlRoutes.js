@@ -92,20 +92,54 @@ module.exports = function (app) {
   app.get("/login", function (req, res) {
     try {
       if (req.session.userId) { return res.render("404", { text: "You're already logged in." }); }
-      res.render("login", { signup: false });
     }
     catch (err) {
-      res.render("login", { signup: false });
+      console.log("Session could not be read");
     }
+    return res.render("login", { signup: false });
   });
 
   app.get("/signup", function (req, res) {
     try {
       if (req.session.userId) { return res.render("404", { text: "You're already logged in." }); }
-      res.render("login", { signup: true });
     }
     catch (err) {
-      res.render("login", { signup: true });
+      console.log("Session could not be read");
+    }
+    return res.render("login", { signup: true });
+  });
+
+  app.get('/logout', function (req, res) {
+    if (req.session) {
+      req.session.destroy(function (err) {
+        if (err) {
+          return res.json(err);
+        } else {
+          return res.redirect('/');
+        }
+      });
     }
   });
+
+  app.get("/user", function (req, res) {
+    try {
+      if (req.session.userId) {
+        db.User.find({ _id: req.session.userId })
+          .populate("comments")
+          .then(function (data) {
+            console.log(data);
+            var user = {};
+            user.name = data[0].name;
+            user.comments = data[0].comments;
+            res.render("user", user);
+          })
+          .catch(function(err){
+            res.json(err);
+          });
+      }
+    }
+    catch (err) {
+      return res.render("404", { text: "You aren't logged in!" });
+    }
+  })
 }

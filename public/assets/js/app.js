@@ -11,7 +11,7 @@ $(document).ready(function(){
       method: "POST",
       data: data
     }).then(function(response){
-      console.log("HELLO")
+      console.log(response)
     })
   });
 });

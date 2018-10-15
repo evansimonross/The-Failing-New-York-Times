@@ -162,7 +162,7 @@ module.exports = function (app) {
     })
       .then(function (data) {
         // Add the comment to the user document 
-        db.User.update({
+        db.User.updateOne({
           _id: req.body.user
         },
           {
@@ -175,7 +175,7 @@ module.exports = function (app) {
           });
 
         // Add the comment to the article document
-        db.Article.update({
+        db.Article.updateOne({
           _id: req.body.article
         },
           {
