@@ -86,17 +86,17 @@ module.exports = function (app) {
         data.fake = fake;
         data.boring = boring;
         data.loggedIn = false;
-        try{
-          if(req.session.userId){
+        try {
+          if (req.session.userId) {
             data.loggedIn = true;
           }
         }
-        catch(err){
+        catch (err) {
 
         }
         res.render("article", data);
       })
-      .catch(function(err){
+      .catch(function (err) {
         res.json(err);
       });
   });
@@ -127,10 +127,33 @@ module.exports = function (app) {
         if (err) {
           return res.json(err);
         } else {
-          return res.json({success: true});
+          return res.json({ success: true });
         }
       });
     }
+  });
+
+  app.get("/user/:id", function (req, res) {
+    db.User.find({ _id: req.params.id })
+      .populate("comments")
+      .then(function (data) {
+        console.log(data);
+        var user = {};
+        user.name = data[0].name;
+        user.comments = data[0].comments;
+        user.self = false;
+        try {
+          if (req.session.userId===req.params.id) {
+            user.self = true;
+          }
+        }
+        catch(err){
+        }
+        res.render("user", user);
+      })
+      .catch(function (err) {
+        res.json(err);
+      });
   });
 
   app.get("/user", function (req, res) {
@@ -143,9 +166,10 @@ module.exports = function (app) {
             var user = {};
             user.name = data[0].name;
             user.comments = data[0].comments;
+            user.self = true;
             res.render("user", user);
           })
-          .catch(function(err){
+          .catch(function (err) {
             res.json(err);
           });
       }

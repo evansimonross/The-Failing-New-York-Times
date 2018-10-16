@@ -161,7 +161,7 @@ module.exports = function (app) {
         console.log(data);
         // Add the comment to the user document 
         db.User.updateOne({
-          _id: req.body.user
+          _id: req.session.userId
         },
           {
             $push: { comments: data._id }

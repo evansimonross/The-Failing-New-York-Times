@@ -10,7 +10,7 @@
   {{#each comments}}
   <li>
     <span class="comment">{{text}}</span>
-    <span class="username">{{user.name}}</span>
+    <span class="username"><a href="/user/{{user._id}}">{{user.name}}</a></span>
     </li>
   {{/each}}
 </ul>
