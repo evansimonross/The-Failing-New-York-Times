@@ -1,8 +1,8 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
   $('.sidenav').sidenav();
 
-  $('#userForm').on("submit", function(event){
+  $('#userForm').on("submit", function (event) {
     event.preventDefault();
     var data = {};
     data.name = $('#userForm input[name=name]').val().trim();
@@ -12,15 +12,15 @@ $(document).ready(function(){
       url: "/api/users",
       method: "POST",
       data: data
-    }).then(function(response){
+    }).then(function (response) {
       console.log(response);
-      if(response.success===true){
+      if (response.success === true) {
         window.location.href = "/";
       }
     });
   });
 
-  $('#commentForm').on("submit", function(event){
+  $('#commentForm').on("submit", function (event) {
     event.preventDefault();
     var data = {};
     data.text = $('#commentForm textarea').val().trim();
@@ -29,29 +29,29 @@ $(document).ready(function(){
       url: "/api/comments",
       method: "POST",
       data: data
-    }).then(function(response){
+    }).then(function (response) {
       location.reload();
     });
   });
 
-  $('.vote').on("click", function(){
+  $('.vote').on("click", function () {
     var data = {};
     data.text = $(this).hasClass("sad") ? "sad" : $(this).hasClass("fake") ? "fake" : "boring";
     data.article = $(this).data("id");
-    console.log(data);
+    var method = $(this).hasClass("highlighted") ? "DELETE" : "POST";
     $.ajax({
       url: "/api/votes",
-      method: "POST",
+      method: method,
       data: data
-    }).then(function(response){
+    }).then(function (response) {
       location.reload();
     });
-  })
+  });
 
-  $('#logout').on("click", function(){
-    $.get("/logout").then(function(response){
+  $('#logout').on("click", function () {
+    $.get("/logout").then(function (response) {
       console.log(response);
-      if(response.success===true){
+      if (response.success === true) {
         window.location.href = "/";
       }
     });

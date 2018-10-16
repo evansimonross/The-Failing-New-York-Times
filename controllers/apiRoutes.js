@@ -251,4 +251,17 @@ module.exports = function (app) {
       res.json(err);
     });
   });
+
+  app.delete("/api/votes", function(req, res){
+    db.Vote.deleteOne({
+      article: req.body.article,
+      user: req.session.userId
+    })
+    .then(function(data){
+      res.json(data);
+    })
+    .catch(function(err){
+      res.json(err);
+    });
+  });
 }
