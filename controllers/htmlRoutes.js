@@ -90,6 +90,7 @@ module.exports = function (app) {
       })
       .then(function (data) {
         data.loggedIn = false;
+        var userVote = null;
         try {
           if (req.session.userId) {
             data.loggedIn = true;
@@ -109,8 +110,12 @@ module.exports = function (app) {
             boring++;
           }
           if (data.loggedIn && !data.userVote) {
-            if (data.votes[j].user === req.session.userId) {
+            console.log("checking votes");
+            console.log(typeof data.votes[j].user);
+            console.log(typeof req.session.userId);
+            if (data.votes[j].user.toString() === req.session.userId) {
               data.userVote = data.votes[j].text;
+              console.log("YOU VOTED " + data.userVote);
             }
           }
         }
@@ -119,9 +124,9 @@ module.exports = function (app) {
         data.fake = { count: fake, highlighted: false };
         data.boring = { count: boring, highlighted: false };
         switch (data.userVote) {
-          case "sad": data.sad.highlighted = true;
-          case "fake": data.fake.highlighted = true;
-          case "boring": data.boring.highlighted = true;
+          case "sad": data.sad.highlighted = true; break;
+          case "fake": data.fake.highlighted = true; break;
+          case "boring": data.boring.highlighted = true; break;
         }
         res.render("article", data);
       })

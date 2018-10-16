@@ -2,9 +2,9 @@
   {{#each articles}}
     <li><a class="headline" href="/articles/{{_id}}">{{title}}</a>
     <br> &nbsp;&nbsp;&nbsp;&nbsp;
-      <span class="fail sad {{#if ../loggedIn}}vote {{/if}}{{#if sad.highlighted}}red{{/if}}" data-id="{{_id}}">sad ({{sad.count}})</span> &nbsp;&nbsp;
-      <span class="fail fake {{#if ../loggedIn}}vote {{/if}}{{#if fake.highlighted}}red{{/if}}" data-id="{{_id}}">fake ({{fake.count}})</span> &nbsp;&nbsp;
-      <span class="fail boring {{#if ../loggedIn}}vote {{/if}}{{#if boring.highlighted}}red{{/if}}" data-id="{{_id}}">boring ({{boring.count}})</span> &nbsp;&nbsp;
+      <span class="fail sad {{#if ../loggedIn}}vote {{/if}}{{#if sad.highlighted}}highlighted{{/if}}" data-id="{{_id}}">sad ({{sad.count}})</span> &nbsp;&nbsp;
+      <span class="fail fake {{#if ../loggedIn}}vote {{/if}}{{#if fake.highlighted}}highlighted{{/if}}" data-id="{{_id}}">fake ({{fake.count}})</span> &nbsp;&nbsp;
+      <span class="fail boring {{#if ../loggedIn}}vote {{/if}}{{#if boring.highlighted}}highlighted{{/if}}" data-id="{{_id}}">boring ({{boring.count}})</span> &nbsp;&nbsp;
       <a href="https://nytimes.com/{{link}}"><i class="material-icons">open_in_new</i></a>
     </li>
   {{/each}}

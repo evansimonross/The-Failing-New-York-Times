@@ -40,7 +40,7 @@ i{
   top: 7.5px;
 }
 
-a, .red, .vote:hover{
+a, .highlighted, .vote:hover{
   color: #f15;
 }
 
@@ -63,7 +63,6 @@ a, .red, .vote:hover{
 }
 
 .fail{
-  color: #000;
   font-family: 'PlaneCrash', sans-serif;
   position: relative;
   top: 2px;
