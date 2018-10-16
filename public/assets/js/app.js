@@ -1,5 +1,7 @@
 $(document).ready(function(){
+
   $('.sidenav').sidenav();
+
   $('#userForm').on("submit", function(event){
     event.preventDefault();
     var data = {};
@@ -17,6 +19,21 @@ $(document).ready(function(){
       }
     });
   });
+
+  $('#commentForm').on("submit", function(event){
+    event.preventDefault();
+    var data = {};
+    data.text = $('#commentForm textarea').val().trim();
+    data.article = $('#commentForm').data("id");
+    $.ajax({
+      url: "/api/comments",
+      method: "POST",
+      data: data
+    }).then(function(response){
+      location.reload();
+    });
+  });
+
   $('#logout').on("click", function(event){
     event.preventDefault();
     $.get("/logout").then(function(response){

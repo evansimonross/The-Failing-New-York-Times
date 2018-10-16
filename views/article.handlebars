@@ -14,3 +14,9 @@
     </li>
   {{/each}}
 </ul>
+{{#if loggedIn}}
+<form id="commentForm" data-id="{{_id}}">
+  <textarea></textarea>
+  <input type="submit" value="Submit">
+</form>
+{{/if}}

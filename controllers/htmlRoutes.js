@@ -85,7 +85,19 @@ module.exports = function (app) {
         data.sad = sad;
         data.fake = fake;
         data.boring = boring;
+        data.loggedIn = false;
+        try{
+          if(req.session.userId){
+            data.loggedIn = true;
+          }
+        }
+        catch(err){
+
+        }
         res.render("article", data);
+      })
+      .catch(function(err){
+        res.json(err);
       });
   });
 

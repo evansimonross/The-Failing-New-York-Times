@@ -154,10 +154,11 @@ module.exports = function (app) {
   app.post("/api/comments", function (req, res) {
     db.Comment.create({
       text: req.body.text,
-      user: req.body.user,
+      user: req.session.userId,
       article: req.body.article
     })
       .then(function (data) {
+        console.log(data);
         // Add the comment to the user document 
         db.User.updateOne({
           _id: req.body.user
