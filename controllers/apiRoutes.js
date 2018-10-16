@@ -216,38 +216,36 @@ module.exports = function (app) {
   });
 
   app.post("/api/votes", function (req, res) {
-    db.Vote.create({
-      text: req.body.text,
+    db.Vote.findOneAndUpdate({
       article: req.body.article,
       user: req.session.userId
+    },
+    {
+      text: req.body.text
+    },
+    {
+      new: true,
+      upsert: true
     })
     .then(function (data){
-      db.User.updateOne({
-        _id: req.session.userId
-      },
-        {
-          $push: { votes: data._id }
-        })
-        .then(function (updateData) {
-        })
-        .catch(function (err) {
-          res.json(err);
-        });
+      console.log(data);
+      if(data.created >= data.updated){
+        console.log("in");
+        // Add the vote to the article document
+        db.Article.updateOne({
+          _id: req.body.article
+        },
+          {
+            $addToSet: { votes: data._id }
+          })
+          .then(function (updateData) {
+          })
+          .catch(function (err) {
+            res.json(err);
+          });
 
-      // Add the comment to the article document
-      db.Article.updateOne({
-        _id: req.body.article
-      },
-        {
-          $push: { votes: data._id }
-        })
-        .then(function (updateData) {
-        })
-        .catch(function (err) {
-          res.json(err);
-        });
-
-      res.json(data);
+        res.json(data);
+      }
     })
     .catch(function (err) {
       res.json(err);
