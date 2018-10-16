@@ -21,11 +21,11 @@
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="/">Articles</a></li>
         {{#if loggedIn}}
-        <li><a href="user">Profile</a></li>
+        <li><a href="/user">Profile</a></li>
         {{else}}
-        <li><a href="login">Login</a></li>
+        <li><a href="/login">Login</a></li>
         {{/if}}
-        <li><a href="about">About</a></li>
+        <li><a href="/about">About</a></li>
       </ul>
     </div>
   </nav>
@@ -33,11 +33,11 @@
   <ul class="sidenav" id="mobile">
     <li><a href="/">Articles</a></li>
     {{#if loggedIn}}
-    <li><a href="user">Profile</a></li>
+    <li><a href="/user">Profile</a></li>
     {{else}}
-    <li><a href="login">Login</a></li>
+    <li><a href="/login">Login</a></li>
     {{/if}}
-    <li><a href="about">About</a></li>
+    <li><a href="/about">About</a></li>
   </ul>
 
   {{{body}}}

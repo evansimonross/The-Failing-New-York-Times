@@ -34,8 +34,21 @@ $(document).ready(function(){
     });
   });
 
-  $('#logout').on("click", function(event){
-    event.preventDefault();
+  $('.vote').on("click", function(){
+    var data = {};
+    data.text = $(this).hasClass("sad") ? "sad" : $(this).hasClass("fake") ? "fake" : "boring";
+    data.article = $(this).data("id");
+    console.log(data);
+    $.ajax({
+      url: "/api/votes",
+      method: "POST",
+      data: data
+    }).then(function(response){
+      location.reload();
+    });
+  })
+
+  $('#logout').on("click", function(){
     $.get("/logout").then(function(response){
       console.log(response);
       if(response.success===true){
