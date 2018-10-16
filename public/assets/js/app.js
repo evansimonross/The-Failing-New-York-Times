@@ -11,7 +11,19 @@ $(document).ready(function(){
       method: "POST",
       data: data
     }).then(function(response){
-      console.log(response)
-    })
+      console.log(response);
+      if(response.success===true){
+        window.location.href = "/";
+      }
+    });
+  });
+  $('#logout').on("click", function(event){
+    event.preventDefault();
+    $.get("/logout").then(function(response){
+      console.log(response);
+      if(response.success===true){
+        window.location.href = "/";
+      }
+    });
   });
 });

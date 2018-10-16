@@ -115,7 +115,7 @@ module.exports = function (app) {
         if (err) {
           return res.json(err);
         } else {
-          return res.redirect('/');
+          return res.json({success: true});
         }
       });
     }

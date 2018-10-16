@@ -2,9 +2,6 @@ var db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-
 module.exports = function (app) {
 
   // SCRAPING
@@ -93,7 +90,7 @@ module.exports = function (app) {
         }
         try {
           req.session.userId = data._id;
-          return res.redirect("/");
+          return res.json({success: true});
         }
         catch(err){
           return res.json(err);
