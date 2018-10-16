@@ -8,14 +8,14 @@ function renderArticleList(req, res, data, nextPage) {
       text: "There are no articles to display."
     });
   }
-  var toRender = { articles: data };
+  var toRender = {};
   toRender.loggedIn = false;
-  try{
-    if(req.session.userId){
+  try {
+    if (req.session.userId) {
       toRender.loggedIn = true;
     }
   }
-  catch(err){
+  catch (err) {
   }
   for (var i = 0; i < data.length; i++) {
     var sad = 0, fake = 0, boring = 0;
@@ -29,13 +29,24 @@ function renderArticleList(req, res, data, nextPage) {
       else if (data[i].votes[j].text === "boring") {
         boring++;
       }
+      if (toRender.loggedIn && !data[i].userVote) {
+        if (data[i].votes[j].user === req.session.userId) {
+          data[i].userVote = data[i].votes[j].text;
+        }
+      }
     }
-    data[i].sad = sad;
-    data[i].fake = fake;
-    data[i].boring = boring;
+    data[i].sad = { count: sad, highlighted: false };
+    data[i].fake = { count: fake, highlighted: false };
+    data[i].boring = { count: boring, highlighted: false };
+    switch (data[i].userVote) {
+      case "sad": data[i].sad.highlighted = true;
+      case "fake": data[i].fake.highlighted = true;
+      case "boring": data[i].boring.highlighted = true;
+    }
   }
   if (data.length === LIMIT) { toRender.nextPage = nextPage; }
   if (nextPage > 2) { toRender.prevPage = nextPage - 2; }
+  toRender.articles = data;
   res.render("index", toRender);
 }
 
@@ -78,6 +89,14 @@ module.exports = function (app) {
         }
       })
       .then(function (data) {
+        data.loggedIn = false;
+        try {
+          if (req.session.userId) {
+            data.loggedIn = true;
+          }
+        }
+        catch (err) {
+        }
         var sad = 0, fake = 0, boring = 0;
         for (var j = 0; j < data.votes.length; j++) {
           if (data.votes[j].text === "sad") {
@@ -89,18 +108,20 @@ module.exports = function (app) {
           else if (data.votes[j].text === "boring") {
             boring++;
           }
-        }
-        data.sad = sad;
-        data.fake = fake;
-        data.boring = boring;
-        data.loggedIn = false;
-        try {
-          if (req.session.userId) {
-            data.loggedIn = true;
+          if (data.loggedIn && !data.userVote) {
+            if (data.votes[j].user === req.session.userId) {
+              data.userVote = data.votes[j].text;
+            }
           }
         }
-        catch (err) {
-
+        
+        data.sad = { count: sad, highlighted: false };
+        data.fake = { count: fake, highlighted: false };
+        data.boring = { count: boring, highlighted: false };
+        switch (data.userVote) {
+          case "sad": data.sad.highlighted = true;
+          case "fake": data.fake.highlighted = true;
+          case "boring": data.boring.highlighted = true;
         }
         res.render("article", data);
       })
@@ -152,14 +173,14 @@ module.exports = function (app) {
         user.self = false;
         user.loggedIn = false;
         try {
-          if (req.session.userId===req.params.id) {
+          if (req.session.userId === req.params.id) {
             user.self = true;
           }
-          if (req.session.userId){
+          if (req.session.userId) {
             user.loggedIn = true;
           }
         }
-        catch(err){
+        catch (err) {
         }
         res.render("user", user);
       })
