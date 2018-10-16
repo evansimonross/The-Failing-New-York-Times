@@ -1,14 +1,22 @@
 var db = require("../models");
 
-const LIMIT = 5;
+const LIMIT = 6;
 
-function renderArticleList(res, data, nextPage) {
+function renderArticleList(req, res, data, nextPage) {
   if (!data.length) {
     return res.render("404", {
       text: "There are no articles to display."
     });
   }
   var toRender = { articles: data };
+  toRender.loggedIn = false;
+  try{
+    if(req.session.userId){
+      toRender.loggedIn = true;
+    }
+  }
+  catch(err){
+  }
   for (var i = 0; i < data.length; i++) {
     var sad = 0, fake = 0, boring = 0;
     for (var j = 0; j < data[i].votes.length; j++) {
@@ -41,7 +49,7 @@ module.exports = function (app) {
     })
       .populate("votes")
       .then(function (data) {
-        renderArticleList(res, data, 2);
+        renderArticleList(req, res, data, 2);
       });
   });
 
@@ -142,9 +150,13 @@ module.exports = function (app) {
         user.name = data[0].name;
         user.comments = data[0].comments;
         user.self = false;
+        user.loggedIn = false;
         try {
           if (req.session.userId===req.params.id) {
             user.self = true;
+          }
+          if (req.session.userId){
+            user.loggedIn = true;
           }
         }
         catch(err){
@@ -167,6 +179,7 @@ module.exports = function (app) {
             user.name = data[0].name;
             user.comments = data[0].comments;
             user.self = true;
+            user.loggedIn = true;
             res.render("user", user);
           })
           .catch(function (err) {

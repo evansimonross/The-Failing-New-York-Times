@@ -15,11 +15,16 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo"><span class="nyt">&nbsp;The </span><span class="fail" style="color:#f15">failing</span><span class="nyt"> New York Times</span></a>
+      <a href="/" class="brand-logo"><span class="nyt">&nbsp;The </span><span class="fail" style="color:#f15">failing</span><span
+          class="nyt"> New York Times</span></a>
       <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="/">Articles</a></li>
-        <li><a id="userNav" href="login">Login</a></li>
+        {{#if loggedIn}}
+        <li><a href="user">Profile</a></li>
+        {{else}}
+        <li><a href="login">Login</a></li>
+        {{/if}}
         <li><a href="about">About</a></li>
       </ul>
     </div>
@@ -27,7 +32,11 @@
 
   <ul class="sidenav" id="mobile">
     <li><a href="/">Articles</a></li>
-    <li><a id="userNavMobile" href="login">Login</a></li>
+    {{#if loggedIn}}
+    <li><a href="user">Profile</a></li>
+    {{else}}
+    <li><a href="login">Login</a></li>
+    {{/if}}
     <li><a href="about">About</a></li>
   </ul>
 
