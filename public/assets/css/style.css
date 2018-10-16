@@ -40,8 +40,12 @@ i{
   top: 7.5px;
 }
 
-a, .red{
+a, .red, .vote:hover{
   color: #f15;
+}
+
+.vote:hover{
+  cursor: pointer;
 }
 
 .hidden{

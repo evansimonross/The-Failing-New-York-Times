@@ -158,7 +158,7 @@ module.exports = function (app) {
       article: req.body.article
     })
       .then(function (data) {
-        console.log(data);
+        //console.log(data);
         // Add the comment to the user document 
         db.User.updateOne({
           _id: req.session.userId
@@ -190,6 +190,72 @@ module.exports = function (app) {
       .catch(function (err) {
         res.json(err);
       });
+  });
+
+  // VOTE ROUTES
+  app.get("/api/votes", function (req, res) {
+    db.Vote.find({})
+      .populate("user")
+      .then(function (data) {
+        res.json(data);
+      })
+      .catch(function (err) {
+        res.json(err);
+      });
+  });
+
+  app.get("/api/votes/:id", function (req, res) {
+    db.Vote.findOne({ _id: req.params.id })
+      .populate("user")
+      .then(function (data) {
+        res.json(data);
+      })
+      .catch(function (err) {
+        res.json(err);
+      });
+  });
+
+  app.post("/api/votes", function (req, res) {
+    db.Vote.create({
+      text: req.body.text,
+      article: req.body.article,
+      user: req.session.userId
+    })
+    .then(function (data){
+      db.User.updateOne({
+        _id: req.session.userId
+      },
+        {
+          $push: { votes: data._id }
+        })
+        .then(function (updateData) {
+        })
+        .catch(function (err) {
+          res.json(err);
+        });
+
+      // Add the comment to the article document
+      db.Article.updateOne({
+        _id: req.body.article
+      },
+        {
+          $push: { votes: data._id }
+        })
+        .then(function (updateData) {
+        })
+        .catch(function (err) {
+          res.json(err);
+        });
+
+      res.json(data);
+    })
+    .catch(function (err) {
+      res.json(err);
+    });
+    })
+    .catch(function(err){
+      res.json(data);
+    });
   });
 
 }
