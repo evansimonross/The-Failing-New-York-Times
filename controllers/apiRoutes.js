@@ -68,32 +68,35 @@ module.exports = function (app) {
   app.post("/api/users", function (req, res) {
     var user = req.body;
     if (!(user.name && user.password)) {
-      return res.status("400").send();
+      return res.status("401").send("Please input both fields");
     }
     if (user.passwordConfirm) {
       if (user.passwordConfirm != user.password){
-        return res.status("400").send("The passwords do not match!");
+        return res.status("401").send("The passwords do not match");
       }
       db.User.create(user)
         .then(function (data) {
           req.session.userId = data._id;
-          res.json(data);
+          res.json({success: true});
         })
         .catch(function (err) {
-          res.json(err);
+          if(err.code === 11000) {
+            return res.status("401").send("This user already exists");
+          }
+          return res.status("500").send("Database error " + err.code);
         });
     }
     else {
       db.User.authenticate(user.name, user.password, function(error, data){
         if(error) {
-          return res.json(error);
+          return res.status("401").send("The user could not be authenticated");
         }
         try {
           req.session.userId = data._id;
           return res.json({success: true});
         }
         catch(err){
-          return res.json(err);
+          return res.status("401").send("The user could not be authenticated");
         }
       });
     }

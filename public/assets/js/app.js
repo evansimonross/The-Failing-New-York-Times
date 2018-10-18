@@ -11,11 +11,16 @@ $(document).ready(function () {
     $.ajax({
       url: "/api/users",
       method: "POST",
-      data: data
+      data: data,
+      error: function(jqXHR){
+        alert(jqXHR.responseText);
+      }
     }).then(function (response) {
-      console.log(response);
       if (response.success === true) {
         window.location.href = "/";
+      }
+      else{
+        alert(response);
       }
     });
   });

@@ -74,7 +74,7 @@ module.exports = function (app) {
     })
       .populate("votes")
       .then(function (data) {
-        renderArticleList(res, data, (parseInt(req.params.page) + 1));
+        renderArticleList(req, res, data, (parseInt(req.params.page) + 1));
       });
   });
 
