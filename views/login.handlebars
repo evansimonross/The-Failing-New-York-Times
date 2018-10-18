@@ -1,7 +1,7 @@
 {{#if signup}}
-<h3>Sign Up</h3>
+<h5>Sign Up</h5>
 {{else}}
-<h3>Log In</h3>
+<h5>Log In</h5>
 {{/if}}
 <form id="userForm">
   <p><b>Username:</b></p>
@@ -12,7 +12,7 @@
   <p><b>Password (confirm):</b></p>
   <input type="password" name="passwordConfirm">
   {{/if}}
-  <input type="submit" value="Submit">
+  <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
 </form>
 
 {{#unless signup}}

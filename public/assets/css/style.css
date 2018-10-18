@@ -30,6 +30,22 @@ nav{
     0 1px 5px 0 rgba(0,0,0,0.1);
 }
 
+h5, p, button{
+  margin-left: 25px;
+}
+
+h5, p, button{
+  padding-top: 10px;
+}
+
+input{
+  position: relative;
+  display: block;
+  max-width: 90%;
+  bottom: 15px;
+  left: 5%;
+}
+
 li{
   padding-bottom: 25px;
   padding-left: 25px;

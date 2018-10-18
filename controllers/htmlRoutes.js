@@ -119,7 +119,7 @@ module.exports = function (app) {
             }
           }
         }
-        
+
         data.sad = { count: sad, highlighted: false };
         data.fake = { count: fake, highlighted: false };
         data.boring = { count: boring, highlighted: false };
@@ -216,5 +216,14 @@ module.exports = function (app) {
     catch (err) {
       return res.render("404", { text: "You aren't logged in!" });
     }
+  });
+
+  app.get("/about", function (req, res) {
+    try {
+      if (req.session.userId) { return res.render("about", { loggedIn: true }); }
+    }
+    catch (err) {
+    }
+    return res.render("about", { loggedIn: false });
   })
 }
