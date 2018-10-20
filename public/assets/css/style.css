@@ -38,7 +38,7 @@ h5, p, button{
   padding-top: 10px;
 }
 
-input{
+input, textarea{
   position: relative;
   display: block;
   max-width: 90%;

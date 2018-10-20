@@ -168,13 +168,18 @@ module.exports = function (app) {
   });
 
   app.get("/user/:id", function (req, res) {
-    db.User.find({ _id: req.params.id })
-      .populate("comments")
+    db.User.findOne({ _id: req.params.id })
+      .populate({
+        path: 'comments',
+        options: {
+          sort: { 'created': -1 }
+        }
+      })
       .then(function (data) {
         console.log(data);
         var user = {};
-        user.name = data[0].name;
-        user.comments = data[0].comments;
+        user.name = data.name;
+        user.comments = data.comments;
         user.self = false;
         user.loggedIn = false;
         try {
@@ -197,13 +202,18 @@ module.exports = function (app) {
   app.get("/user", function (req, res) {
     try {
       if (req.session.userId) {
-        db.User.find({ _id: req.session.userId })
-          .populate("comments")
+        db.User.findOne({ _id: req.session.userId })
+          .populate({
+            path: 'comments',
+            options: {
+              sort: { 'created': -1 }
+            }
+          })
           .then(function (data) {
             console.log(data);
             var user = {};
-            user.name = data[0].name;
-            user.comments = data[0].comments;
+            user.name = data.name;
+            user.comments = data.comments;
             user.self = true;
             user.loggedIn = true;
             res.render("user", user);
