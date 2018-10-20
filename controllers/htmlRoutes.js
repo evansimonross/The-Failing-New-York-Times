@@ -17,37 +17,40 @@ function renderArticleList(req, res, data, nextPage) {
   }
   catch (err) {
   }
-  for (var i = 0; i < data.length; i++) {
-    var sad = 0, fake = 0, boring = 0;
-    for (var j = 0; j < data[i].votes.length; j++) {
-      if (data[i].votes[j].text === "sad") {
-        sad++;
-      }
-      else if (data[i].votes[j].text === "fake") {
-        fake++;
-      }
-      else if (data[i].votes[j].text === "boring") {
-        boring++;
-      }
-      if (toRender.loggedIn && !data[i].userVote) {
-        if (data[i].votes[j].user === req.session.userId) {
-          data[i].userVote = data[i].votes[j].text;
+  finally {
+    for (var i = 0; i < data.length; i++) {
+      var sad = 0, fake = 0, boring = 0;
+      for (var j = 0; j < data[i].votes.length; j++) {
+        if (data[i].votes[j].text === "sad") {
+          sad++;
+        }
+        else if (data[i].votes[j].text === "fake") {
+          fake++;
+        }
+        else if (data[i].votes[j].text === "boring") {
+          boring++;
+        }
+        if (toRender.loggedIn) {
+          if (data[i].votes[j].user == req.session.userId) {
+            data[i].userVote = data[i].votes[j].text;
+          }
         }
       }
+      data[i].sad = { count: sad, highlighted: false };
+      data[i].fake = { count: fake, highlighted: false };
+      data[i].boring = { count: boring, highlighted: false };
+      switch (data[i].userVote) {
+        case "sad": data[i].sad.highlighted = true; break;
+        case "fake": data[i].fake.highlighted = true; break;
+        case "boring": data[i].boring.highlighted = true; break;
+      }
     }
-    data[i].sad = { count: sad, highlighted: false };
-    data[i].fake = { count: fake, highlighted: false };
-    data[i].boring = { count: boring, highlighted: false };
-    switch (data[i].userVote) {
-      case "sad": data[i].sad.highlighted = true;
-      case "fake": data[i].fake.highlighted = true;
-      case "boring": data[i].boring.highlighted = true;
-    }
+    if (data.length === LIMIT) { toRender.nextPage = nextPage; }
+    if (nextPage > 2) { toRender.prevPage = nextPage - 2; }
+    toRender.articles = data;
+    //console.log(toRender.articles[0].userVote);
+    res.render("index", toRender);
   }
-  if (data.length === LIMIT) { toRender.nextPage = nextPage; }
-  if (nextPage > 2) { toRender.prevPage = nextPage - 2; }
-  toRender.articles = data;
-  res.render("index", toRender);
 }
 
 module.exports = function (app) {

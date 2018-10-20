@@ -38,7 +38,7 @@ h5, p, button{
   padding-top: 10px;
 }
 
-input, textarea{
+input{
   position: relative;
   display: block;
   max-width: 90%;
@@ -46,9 +46,9 @@ input, textarea{
   left: 5%;
 }
 
-li{
-  padding-bottom: 25px;
-  padding-left: 25px;
+textarea, li{
+  margin-bottom: 25px;
+  margin-left: 25px;
 }
 
 i{
@@ -86,4 +86,15 @@ a, .highlighted, .vote:hover{
 
 .sidenav-trigger, nav ul a{
   color: #000;
+}
+
+.username{
+  margin-left: 25px;
+}
+
+.timestamp{
+  font-size: 0.5em;
+  position: relative;
+  left: 5px;
+  bottom: 5px;
 }
