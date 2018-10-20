@@ -2,6 +2,15 @@ $(document).ready(function () {
 
   $('.sidenav').sidenav();
 
+  $('#scrape').on("click", function(){
+    $.ajax({
+      url: "/api/scrape",
+      method: "POST",
+    }).then(function(response){
+      window.location.href = "/";
+    });
+  });
+
   $('#userForm').on("submit", function (event) {
     event.preventDefault();
     var data = {};
@@ -12,8 +21,8 @@ $(document).ready(function () {
       url: "/api/users",
       method: "POST",
       data: data,
-      error: function(jqXHR){
-        alert(jqXHR.responseText);
+      error: function(err){
+        alert(err.responseText);
       }
     }).then(function (response) {
       if (response.success === true) {
