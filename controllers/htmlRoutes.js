@@ -3,11 +3,6 @@ var db = require("../models");
 const LIMIT = 6;
 
 function renderArticleList(req, res, data, nextPage) {
-  if (!data.length) {
-    return res.render("404", {
-      text: "There are no articles to display."
-    });
-  }
   var toRender = {};
   toRender.loggedIn = false;
   try {
@@ -18,6 +13,12 @@ function renderArticleList(req, res, data, nextPage) {
   catch (err) {
   }
   finally {
+    if (!data.length) {
+      return res.render("404", {
+        text: "There are no articles to display.",
+        loggedIn: toRender.loggedIn
+      });
+    }
     for (var i = 0; i < data.length; i++) {
       var sad = 0, fake = 0, boring = 0;
       for (var j = 0; j < data[i].votes.length; j++) {
@@ -140,7 +141,7 @@ module.exports = function (app) {
 
   app.get("/login", function (req, res) {
     try {
-      if (req.session.userId) { return res.render("404", { text: "You're already logged in." }); }
+      if (req.session.userId) { return res.render("404", { text: "You're already logged in.", loggedIn: true }); }
     }
     catch (err) {
       console.log("Session could not be read");
@@ -150,7 +151,7 @@ module.exports = function (app) {
 
   app.get("/signup", function (req, res) {
     try {
-      if (req.session.userId) { return res.render("404", { text: "You're already logged in." }); }
+      if (req.session.userId) { return res.render("404", { text: "You're already logged in.", loggedIn: true }); }
     }
     catch (err) {
       console.log("Session could not be read");
@@ -227,7 +228,7 @@ module.exports = function (app) {
       }
     }
     catch (err) {
-      return res.render("404", { text: "You aren't logged in!" });
+      return res.render("404", { text: "You aren't logged in!", loggedIn: false });
     }
   });
 
@@ -238,5 +239,15 @@ module.exports = function (app) {
     catch (err) {
     }
     return res.render("about", { loggedIn: false });
+  })
+
+  app.get("*", function (req, res){
+    var loggedIn = false;
+    try {
+      if (req.session.userId) { loggedIn = true; }
+    }
+    catch (err) {
+    }
+    return res.render("404", { text: "The page you are looking for never even happened.", loggedIn: loggedIn });
   })
 }
