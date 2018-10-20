@@ -1,6 +1,9 @@
 {
   "name": "The-Failing-New-York-Times",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.11.3"
+  },
   "description": "A parody news aggregator that allows users to comment on whether the articles are \"Sad\", \"Fake\" or \"Boring\"...",
   "main": "server.js",
   "directories": {

@@ -6,6 +6,7 @@
       <span class="fail fake {{#if ../loggedIn}}vote {{/if}}{{#if fake.highlighted}}highlighted{{/if}}" data-id="{{_id}}">fake ({{fake.count}})</span> &nbsp;&nbsp;
       <span class="fail boring {{#if ../loggedIn}}vote {{/if}}{{#if boring.highlighted}}highlighted{{/if}}" data-id="{{_id}}">boring ({{boring.count}})</span> &nbsp;&nbsp;
       <a href="https://nytimes.com/{{link}}"><i class="material-icons">open_in_new</i></a>
+      <span class="timestamp">{{created}}</span>
     </li>
   {{/each}}
   &nbsp;
